@@ -1,0 +1,73 @@
+﻿@model List<Vehicles>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    #map {
+        height: 600px;
+        width: 900px;
+    }
+</style>
+<div id="map"></div>
+<script>
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 39.933365, lng: 32.859741 },
+            zoom: 9
+        });
+
+        @foreach (var item in Model)
+    {
+        <text>
+            var markerlatLng = new google.maps.LatLng(@(item.lat), @(item.lng));
+
+
+            var marker = new google.maps.Marker({
+                position: markerlatLng,
+                map: map,
+                draggable: false,
+
+            });
+
+        </text>
+    }
+ }
+
+</script>
+
+<script async defer
+        src="https://maps.google.com/maps/api/js?key=AIzaSyBAZ2v5zznQfvMgnPDc4J8RQObjmOGE250&callback=initMap">
+
+</script>
+
+@using (Html.BeginForm())
+{
+    <br />
+    <form>
+        <div>
+            Görmek istediğiniz aracı seçiniz: <br />
+            @*Arac1<input type="radio" name="arac" value="1" />
+        Arac2<input type="radio" name="arac" value="2" />
+        Araclar<input type="radio" name="arac" value="3" />*@
+            Arac1 @Html.RadioButton("arac", "1")
+            Arac2 @Html.RadioButton("arac", "2")
+            Araclar @Html.RadioButton("arac", "3")
+            <br />
+            İstediğiniz tarih-saat aralığını giriniz: <br />
+            <input type="text" name="tarih" placeholder="Başlangıç tarihi Girin"/>
+            <br />
+            <input type="text" name="saat" placeholder="Bitiş tarihi Girin"/>
+            <br />
+            <input type="text" name="arac" placeholder="Araç numarasını Girin"/>
+        </div>
+
+        <input type="submit" value="Göster" formmethod="post" formaction="Index" />
+    </form>
+    <br />
+
+    <form>
+        <input type="submit" value="Cikis" formmethod="post" formaction="Cikis" />
+    </form>
+}
